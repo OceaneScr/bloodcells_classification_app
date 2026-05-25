@@ -1,19 +1,22 @@
-import streamlit as st
-import numpy as np
+# Standard libraries
 import os
-import joblib
-from PIL import Image
-from models.kmeans import K_Means
-from huggingface_hub import hf_hub_download
-import tensorflow as tf
-import pandas as pd
-import random
-from glob import glob
 
+# Third-party libraries
+import joblib
+import random
+import numpy as np
+import pandas as pd
+from PIL import Image
+from glob import glob
+import streamlit as st
+from huggingface_hub import hf_hub_download
+
+# Local import
 from utils.config import (
     COMMON_CSS, CLASSES_MAP, CLASSES_FR, SAMPLE_DIR,
     IMG_SIZE_DL, IMG_SIZE_ML, ERRORS_DIR, MODEL_MAP, 
-    ML_PATH_MAP, DL_PATH_MAP, REPO_ID, GRADCAM_PATH_MAP
+    ML_PATH_MAP, DL_PATH_MAP, REPO_ID, GRADCAM_PATH_MAP,
+    ERRORS_MAP,
 )
 
 from utils.config import vspace
@@ -29,18 +32,6 @@ st.subheader("Classification intéractive d'images de cellule sanguine")
 
 vspace(40)
 
-ERRORS_MAP = {
-    "Basophil": "Basophile",
-    "Basophil": "Basophile", 
-    "Eosinophil": "Éosinophile", 
-    "Erythroblast": "Érythroblaste",
-    "Ig": "IG",
-    "Lymphocyte": "Lymphocyte",
-    "Monocyte": "Monocyte", 
-    "Neutrophil": "Neutrophile", 
-    "Platelet": "Plaquette",
-}
-
 def resolve_path(path):
 
     if os.path.exists(path):
@@ -55,7 +46,7 @@ def resolve_path(path):
 
 @st.cache_resource
 def load_dl_model(model_name):
-
+    import tensorflow as tf
     path = resolve_path(DL_PATH_MAP[model_name])
     return tf.keras.models.load_model(path, compile=False)
 
@@ -290,7 +281,7 @@ with tab1:
                     gradcam_im, class_idx = grad_cam(demo_image, model, MODEL_MAP.get(demo_model))
                     st.image(gradcam_im, width="stretch")
                     if demo_model in ["Xception", "ResNet50V2"]:
-                        st.caption("⚠️ Grad-CAM moins fiable")
+                        st.caption("⚠️ Grad-CAM non interprétable")
                     else:
                         st.caption("Grad-CAM")
 
@@ -319,7 +310,6 @@ with tab1:
 with tab2:  
 
     st.header("⚡ Comparaison entre modèles")     
-
 
     compare_approche = st.radio(
         "Approche",
@@ -448,7 +438,7 @@ with tab2:
 
                                     if name in ["ResNet50V2", "Xception"]:
 
-                                        st.caption("⚠️ Grad-CAM peu interprétable")
+                                        st.caption("⚠️ Grad-CAM non interprétable")
 
                                     if label == compare_categorie:
                                         st.success(f"**Classe prédite : {label}**")

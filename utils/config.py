@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 
@@ -8,12 +7,10 @@ def vspace(height):
         unsafe_allow_html=True
     )
 
-def hspace(width):
-    st.markdown(
-        f"<div style='display:inline-block; width:{width}px;'></div>",
-        unsafe_allow_html=True
-    )
+IMG_SIZE_DL = (360, 360)
+IMG_SIZE_ML = (128, 128)
 
+# --- Languages dic  ---
 CLASSES_EN = [
     "Basophil", "Eosinophil", "Erythroblast",
     "IG", "Lymphocyte",
@@ -28,6 +25,7 @@ CLASSES_FR = [
 CLASSES_EN_TO_FR = dict(zip(CLASSES_EN, CLASSES_FR))
 CLASSES_FR_TO_EN = dict(zip(CLASSES_FR, CLASSES_EN))
 
+# --- Classes mapping ---
 CLASSES_MAP = {
     0: "Basophile",
     1: "Éosinophile",
@@ -39,9 +37,19 @@ CLASSES_MAP = {
     7: "Plaquette"
 }
 
-IMG_SIZE_DL = (360, 360)
-IMG_SIZE_ML = (128, 128)
+ERRORS_MAP = {
+    "Basophil": "Basophile",
+    "Basophil": "Basophile", 
+    "Eosinophil": "Éosinophile", 
+    "Erythroblast": "Érythroblaste",
+    "Ig": "IG",
+    "Lymphocyte": "Lymphocyte",
+    "Monocyte": "Monocyte", 
+    "Neutrophil": "Neutrophile", 
+    "Platelet": "Plaquette",
+}
 
+# --- Paths ---
 REPO_ID = "OceaneScr/bloodcells_classification_models"
 
 RESULTS_DIR  = "./results"
@@ -55,22 +63,6 @@ UMAP_CSV    = "./files/umap_coords.csv"
 
 DL_MODELS_DIR = "./models/dl"
 ML_MODELS_DIR = "./models/ml"
-
-CLASSIFIER_MAP = {
-    "SVM"              : "svm",
-    "XGBoost"          : "xgb",
-    "Voting Classifier" : "voting",
-}
-
-MODEL_MAP = {
-    "EfficientNetV2S" : "efficientnetv2s",
-    "EfficientNetV2M" : "efficientnetv2m",
-    "ResNet50V2"     : "resnet50v2",
-    "DenseNet121"    : "densenet121",
-    "VGG19"          : "vgg19",
-    "Xception"       : "xception",
-    "Ensemble (EffV2S + VGG19 + Xception)" : "ensemble"
-}
 
 QUALITY_IMAGES = {
     "Cellules doubles": f"{QUALITY_DIR}/doubles.jpg",
@@ -93,13 +85,51 @@ DL_PATH_MAP = {
     "Xception": f"{DL_MODELS_DIR}/xception.keras",
 }
 
+# --- Models mapping ---
+CLASSIFIER_MAP = {
+    "SVM"              : "svm",
+    "XGBoost"          : "xgb",
+    "Voting Classifier" : "voting",
+}
+
+MODEL_MAP = {
+    "EfficientNetV2S" : "efficientnetv2s",
+    "EfficientNetV2M" : "efficientnetv2m",
+    "ResNet50V2"     : "resnet50v2",
+    "DenseNet121"    : "densenet121",
+    "VGG19"          : "vgg19",
+    "Xception"       : "xception",
+    "Ensemble (EffV2S + VGG19 + Xception)" : "ensemble"
+}
+
+# --- Grad-CAM ---
 GRADCAM_PATH_MAP = {
     "EfficientNetV2S": f"{DL_MODELS_DIR}/efficientnetv2s.keras",
     "EfficientNetV2M": f"{DL_MODELS_DIR}/efficientnetv2m.keras",
     "VGG19": f"{DL_MODELS_DIR}/vgg19.keras",
 }
 
-# Palette UMAP cohérente avec le plot original
+BACKBONE_MAP = {
+    "mobilenetv2": "mobilenetv2_1.00_224",
+    "efficientnetv2s": "efficientnetv2-s",
+    "efficientnetv2m": "efficientnetv2-m",
+    "resnet50v2": "resnet50v2",
+    "densenet121": "densenet121",
+    "vgg19": "vgg19",
+    "xception": "xception",
+}
+
+TARGET_LAYER_MAP = {
+    "mobilenetv2": "Conv_1", 
+    "efficientnetv2s": "top_activation",
+    "efficientnetv2m": "top_activation",
+    "resnet50v2": "conv5_block3_out",
+    "densenet121": "relu",
+    "vgg19": "block5_conv4",
+    "xception": "block14_sepconv2_act",
+}
+
+# --- style ---
 PALETTE_FR = {
     "Basophile"     : "#555555",
     "Éosinophile"   : "#E74C3C",
@@ -111,7 +141,6 @@ PALETTE_FR = {
     "Plaquette"     : "#F39C12",
 }
 
-# CSS commun injecté sur chaque page
 COMMON_CSS = """
 <style>
     .main-title { font-size:2.2rem; font-weight:800; color:#C0392B; }
@@ -228,8 +257,6 @@ COMMON_CSS = """
         font-weight: 600;
         margin-bottom: 8px;
     }
-    
-    
 
 </style>
 """

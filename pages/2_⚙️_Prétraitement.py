@@ -4,7 +4,9 @@ import streamlit as st
 import plotly.express as px
 
 from utils.config import vspace
-from utils.config import (COMMON_CSS, PALETTE_FR, UMAP_CSV, FIGURES_DIR)
+from utils.config import (
+    COMMON_CSS, PALETTE_FR, UMAP_CSV, FIGURES_DIR,
+)
 
 st.set_page_config(page_title="Preprocessing",
                    page_icon="⚙️", layout="wide")

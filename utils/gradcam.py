@@ -1,45 +1,13 @@
-import numpy as np
-import tensorflow as tf
-from PIL import Image
-import cv2
+
 # Third-party libraries
-import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
-IMG_SIZE = (360, 360)
-
-# LAST_CONV_LAYERS = {
-#     "EfficientNetV2S" : "top_conv",
-#     "EfficientNetV2M" : "top_conv",
-#     "ResNet50V2"      : "post_bn",
-#     "DenseNet121"     : "relu",
-#     "VGG19"           : "block5_conv4",
-#     "Xception"        : "block14_sepconv2_act",
-# }
+# Local import
+from utils.config import (BACKBONE_MAP, TARGET_LAYER_MAP)
 
 
-BACKBONE_MAP = {
-    "mobilenetv2": "mobilenetv2_1.00_224",
-    "efficientnetv2s": "efficientnetv2-s",
-    "efficientnetv2m": "efficientnetv2-m",
-    "resnet50v2": "resnet50v2",
-    "densenet121": "densenet121",
-    "vgg19": "vgg19",
-    "xception": "xception",
-}
-
-
-TARGET_LAYER_MAP = {
-    "mobilenetv2": "Conv_1", 
-    "efficientnetv2s": "top_activation",
-    "efficientnetv2m": "top_activation",
-    "resnet50v2": "conv5_block3_out",
-    "densenet121": "relu",
-    "vgg19": "block5_conv4",
-    "xception": "block14_sepconv2_act",
-}
 
 
 def grad_cam(image, model, model_name):
@@ -134,7 +102,6 @@ def grad_cam(image, model, model_name):
     # )
     alpha_map = heatmap_resized[..., np.newaxis] * 0.7  # alpha variable selon intensité
     superimposed_image = heatmap_colored * alpha_map + img_normalized * (1 - alpha_map)
-    # superimposed_image = np.clip(superimposed_image, 0, 1)
 
     model.layers[-1].activation = tf.keras.activations.softmax
 
