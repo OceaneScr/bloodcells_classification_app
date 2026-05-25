@@ -78,7 +78,7 @@ st.header("Sommaire")
 
 st.markdown("""
 
-#### 📊 Données
+#### 🔬 Données
 Description du dataset PBC, distribution des classes et exemples.
 
 #### ⚙️ Prétraitement
