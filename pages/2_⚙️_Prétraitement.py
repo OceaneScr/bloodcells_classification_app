@@ -55,7 +55,6 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
 
-
     st.divider()
 
     st.subheader("Composition du vecteur de features")
@@ -94,6 +93,8 @@ with tab1:
     )
 
     st.metric("Dimension totale", "156")
+
+    st.caption("Dimension initiale : 128 × 128 × 3 = 49 152, rendant la classification directe difficile sur CPU.")
 
     st.divider()
 

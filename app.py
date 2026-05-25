@@ -77,7 +77,7 @@ with col1:
     st.markdown("""
     <div class="card">
         <h3>🧮 Machine Learning</h3><br>
-        <div class="section-label">Extraction de features</div>
+        <div class="section-label">Extraction de caractéristiques</div>
         ✓ K-Means espace LAB<br>
         ✓ Statistiques intra-clusters<br>
         ✓ GLCM, Sobel<br>
