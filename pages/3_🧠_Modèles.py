@@ -176,7 +176,7 @@ with tab1:
             "F1 macro": ["97.62% ± 0.37", "97.64% ± 0.33", "98.23% ± 0.32"],
         }
         st.dataframe(data_cv5)
-        st.info("La CV5 n'a pas été appliquée aux modèles DL en raison du coût computationnel.")
+        st.caption("La CV5 n'a pas été appliquée aux modèles DL en raison du coût computationnel.")
     st.divider()
 
     st.subheader("🔍 Interprétabilité — SHAP par classe")

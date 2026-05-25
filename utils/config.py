@@ -1,15 +1,10 @@
 
 import streamlit as st
 
+
 def vspace(height):
     st.markdown(
         f"<div style='height:{height}px;'></div>",
-        unsafe_allow_html=True
-    )
-
-def hspace(width):
-    st.markdown(
-        f"<div style='display:inline-block; width:{width}px;'></div>",
         unsafe_allow_html=True
     )
 
@@ -41,7 +36,7 @@ CLASSES_MAP = {
 IMG_SIZE_DL = (360, 360)
 IMG_SIZE_ML = (128, 128)
 
-CONF_THRESHOLD = 0.70
+REPO_ID = "OceaneScr/bloodcells_classification_models"
 
 RESULTS_DIR  = "./results"
 
@@ -49,8 +44,6 @@ FIGURES_DIR  = "./images/figures"
 SAMPLE_DIR  = "./images/sample_images"  
 QUALITY_DIR  = "./images/quality"
 ERRORS_DIR = "./images/errors" 
-
-DATASET_DIR = "../Projet/data/dataset" 
 
 UMAP_CSV    = "./files/umap_coords.csv"
 
@@ -88,7 +81,6 @@ DL_PATH_MAP = {
     "Xception": f"{DL_MODELS_DIR}/xception.keras",
 }
 
-# Palette UMAP cohérente avec le plot original
 PALETTE_FR = {
     "Basophile"     : "#555555",
     "Éosinophile"   : "#E74C3C",
@@ -100,7 +92,6 @@ PALETTE_FR = {
     "Plaquette"     : "#F39C12",
 }
 
-# CSS commun injecté sur chaque page
 COMMON_CSS = """
 <style>
     .main-title { font-size:2.2rem; font-weight:800; color:#C0392B; }

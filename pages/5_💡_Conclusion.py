@@ -10,10 +10,10 @@ st.title("💡 Conclusion")
 
 st.divider()
 
-st.markdown("### ✅ Ce qui fonctionne")
+st.markdown("### ✅ Principaux résultats")
 st.markdown("""
 - Le pipeline ML — extraction de features via K-Means LAB, GLCM et Sobel — offre une classification **rapide sur CPU** dont chaque prédiction peut être **expliquée** et **justifiée** via SHAP
-- Le **Voting Classifier** atteint **98,10% d'accuracy**, confirmant que des features colorimétriques et texturales ciblées atteignent des performances comparables au Transfer Learning sur ce dataset
+- Le Voting Classifier atteint **98,10% d'accuracy**, confirmant la pertinence des **features colorimétriques et texturales** extraites pour cette tâche de classification
 - Les modèles DL par Transfer Learning atteignent **99,18% d'accuracy**, soit la meilleure performance observée
 - Les **Grad-CAM** confirment que les modèles DL focalisent leur attention sur les zones biologiquement pertinentes — noyau et cytoplasme — ce qui valide leur comportement au-delà du simple score
 """)
