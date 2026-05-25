@@ -13,7 +13,7 @@ from glob import glob
 from utils.config import (
     COMMON_CSS, CLASSES_MAP, CLASSES_FR, SAMPLE_DIR,
     IMG_SIZE_DL, IMG_SIZE_ML, ERRORS_DIR, MODEL_MAP, 
-    ML_PATH_MAP, DL_PATH_MAP, REPO_ID
+    ML_PATH_MAP, DL_PATH_MAP, REPO_ID, GRADCAM_PATH_MAP
 )
 
 from utils.config import vspace
@@ -551,7 +551,7 @@ with tab3:
             with st.spinner("Analyse en cours..."):
 
                 models = {
-                    name: load_dl_model(name) for name in DL_PATH_MAP
+                    name: load_dl_model(name) for name in GRADCAM_PATH_MAP
                 }
 
                 model_names = list(models.keys())

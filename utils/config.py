@@ -8,6 +8,12 @@ def vspace(height):
         unsafe_allow_html=True
     )
 
+def hspace(width):
+    st.markdown(
+        f"<div style='display:inline-block; width:{width}px;'></div>",
+        unsafe_allow_html=True
+    )
+
 CLASSES_EN = [
     "Basophil", "Eosinophil", "Erythroblast",
     "IG", "Lymphocyte",
@@ -81,6 +87,7 @@ DL_PATH_MAP = {
     "Xception": f"{DL_MODELS_DIR}/xception.keras",
 }
 
+# Palette UMAP cohérente avec le plot original
 PALETTE_FR = {
     "Basophile"     : "#555555",
     "Éosinophile"   : "#E74C3C",
@@ -92,6 +99,7 @@ PALETTE_FR = {
     "Plaquette"     : "#F39C12",
 }
 
+# CSS commun injecté sur chaque page
 COMMON_CSS = """
 <style>
     .main-title { font-size:2.2rem; font-weight:800; color:#C0392B; }
