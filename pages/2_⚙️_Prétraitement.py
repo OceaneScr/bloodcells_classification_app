@@ -32,26 +32,35 @@ with tab1:
 
     st.markdown("Le pipeline ML transforme chaque image brute en un **vecteur de 156 features**.")
 
-    col1, col2, col3 = st.columns([0.05,1,0.05])
+    col1, col2, col3 = st.columns([0.01,1,0.01])
 
     with col2:
-        
+
         st.markdown("""
-        <div style="display:flex;
-            align-items:center;
-            justify-content:space-between;
-            font-size:15.5px;
-            text-align:center;
-            border-radius:8px;
-            background-color:#f8f8f8;
-            padding:20px 30px;">
-            <div><b>Images RGB</b><br><span style="color:#888;font-size:13px;">128 × 128</span></div>
-            <div style="font-size:24px; color:#888;">→</div>
-            <div><b>Espace L*a*b*</b><br><span style="color:#888;font-size:13px;">conversion</span></div>
-            <div style="font-size:24px; color:#888;">→</div>
-            <div><b>K-Means</b><br><span style="color:#888;font-size:13px;">k = 13 clusters</span></div>
-            <div style="font-size:24px; color:#888;">→</div>
-            <div><b>Extraction</b><br><span style="color:#888;font-size:13px;">features</span></div>
+        <div style="display:flex; align-items:center; gap:8px; margin:20px 0;">
+            <div style="background:#f8f8f8; border-radius:10px; padding:14px 20px; text-align:center; flex:1;">
+                <div style="font-size:20px;">🔬</div>
+                <div style="font-weight:600; margin:4px 0;">Images RGB</div>
+                <div style="font-size:12px; color:#888;">128 × 128</div>
+            </div>
+            <div style="font-size:20px; color:#ccc;">→</div>
+            <div style="background:#f8f8f8; border-radius:10px; padding:14px 20px; text-align:center; flex:1;">
+                <div style="font-size:20px;">🎨</div>
+                <div style="font-weight:600; margin:4px 0;">Espace L*a*b*</div>
+                <div style="font-size:12px; color:#888;">conversion</div>
+            </div>
+            <div style="font-size:20px; color:#ccc;">→</div>
+            <div style="background:#f8f8f8; border-radius:10px; padding:14px 20px; text-align:center; flex:1;">
+                <div style="font-size:15px;">🟠</div>
+                <div style="font-weight:600; margin:4px 0;">K-Means</div>
+                <div style="font-size:12px; color:#888;">k = 13 clusters</div>
+            </div>
+            <div style="font-size:20px; color:#ccc;">→</div>
+            <div style="background:#f8f8f8; border-radius:10px; padding:14px 20px; text-align:center; flex:1;">
+                <div style="font-size:20px;">📐</div>
+                <div style="font-weight:600; margin:4px 0;">Extraction</div>
+                <div style="font-size:12px; color:#888;">156 features</div>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -65,8 +74,8 @@ with tab1:
                         "Texture", "Texture"],
             "Feature"   : [
                 "Histogrammes clusters",
-                "L*a*b* intra — moyennes",
-                "L*a*b* intra — écart-types",
+                "L*a*b* intra-cluster — moyennes",
+                "L*a*b* intra-cluster — écart-types",
                 "Histogrammes radiaux",
                 "Contraste",
                 "Statistiques globales",
@@ -75,13 +84,13 @@ with tab1:
             ],
             "Description": [
                 "Distribution globale des 13 clusters",
-                "Moyenne L, A, B par cluster",
-                "Écart-type L, A, B par cluster",
+                "Moyenne par cluster sur L*, a* et b*",
+                "Écart-type par cluster sur L*, a* et b*",
                 "4 anneaux concentriques × 13 clusters",
-                "Moyenne + écart-type",
-                "Moyenne + écart-type sur L, A, B",
-                "Contraste, homogénéité, énergie",
-                "Moyenne + écart-type magnitude du gradient ",
+                "Moyenne et écart-type",
+                "Moyenne et écart-type sur L*, a* et b*",
+                "Contraste, homogénéité et énergie",
+                "Moyenne et écart-type de la magnitude du gradient ",
             ],
         "Dimension":[13, 39, 39, 52, 2, 6, 3, 2]
     })
