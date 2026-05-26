@@ -121,8 +121,8 @@ with tab1:
 
     st.subheader("🎯 Performances")
 
-    vspace(20)
-
+    vspace(10)
+    
     st.markdown("""
     <div style="display:flex; gap:16px; align-items:stretch; margin-bottom:1rem;">
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:2;">
@@ -269,7 +269,7 @@ with tab2:
 
     st.subheader("🎯 Performances")
 
-    vspace(20)
+    vspace(10)
 
     st.markdown("""
     <div style="display:flex; gap:16px; align-items:stretch; margin-bottom:1rem;">
