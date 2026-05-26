@@ -7,7 +7,7 @@ st.title("Classification automatique de cellules sanguines")
 st.markdown("""
 ### Analyse et classification d’images du dataset **PBC (Peripheral Blood Cells)**
 
-Cette application présente un système de classification automatique basé sur **images microscopiques de cellules sanguines**.
+Cette application présente un système de classification automatique basé sur des **images microscopiques de cellules sanguines**.
 """)
 
 st.divider()
