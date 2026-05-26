@@ -25,7 +25,7 @@ st.markdown("""
     <div class="metric-card"><div class="metric-label">Images</div><div class="metric-value">17 095</div></div>
     <div class="metric-card"><div class="metric-label">Classes</div><div class="metric-value">8</div></div>
     <div class="metric-card"><div class="metric-label">Modèles testés</div><div class="metric-value">10+</div></div>
-    <div class="metric-card"><div class="metric-label">Accuracy max</div><div class="metric-value">99,18%</div></div>
+    <div class="metric-card"><div class="metric-label">Accuracy max</div><div class="metric-value">99,21%</div></div>
 </div>
 """, unsafe_allow_html=True)
 

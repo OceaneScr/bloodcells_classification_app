@@ -122,7 +122,7 @@ with tab1:
     st.subheader("🎯 Performances")
 
     vspace(10)
-    
+
     st.markdown("""
     <div style="display:flex; gap:16px; align-items:stretch; margin-bottom:1rem;">
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:2;">
@@ -276,15 +276,15 @@ with tab2:
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:2;">
             <div style="font-size:13px; color:#888;">🏆 Meilleur modèle DL</div>
             <div style="font-size:28px; font-weight:500; margin:8px 0;">Ensemble</div>
-            <div style="font-size:13px; color:#888;">EfficientNetV2S + VGG19 + Xception · vote soft</div>
+            <div style="font-size:13px; color:#888;">EfficientNetV2S + + ResNet50V2 + VGG19 + Xception · vote soft</div>
         </div>
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:1;">
             <div style="font-size:13px; color:#888;">Accuracy</div>
-            <div style="font-size:28px; font-weight:500; margin:8px 0;">99.18%</div>
+            <div style="font-size:28px; font-weight:500; margin:8px 0;">99.21%</div>
         </div>
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:1;">
             <div style="font-size:13px; color:#888;">F1 macro</div>
-            <div style="font-size:28px; font-weight:500; margin:8px 0;">99.20%</div>
+            <div style="font-size:28px; font-weight:500; margin:8px 0;">99.24%</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
