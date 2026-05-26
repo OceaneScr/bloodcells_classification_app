@@ -22,7 +22,7 @@ from utils.config import (
 from utils.config import vspace
 from utils.gradcam import grad_cam
 
-st.set_page_config(page_title="Démonstration",
+st.set_page_config(page_title="Classification interactive",
                    page_icon="🔍", layout="wide")
 
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
