@@ -152,14 +152,14 @@ with tab1:
     if demo_approche == "Machine Learning":
         demo_model = st.selectbox("Modèle", ["SVM", "XGBoost", "Voting Classifier"],
         index=None,
-        placeholder="Choisir une option")
+        placeholder="Choisissez un modèle")
     else:
         demo_model = st.selectbox("Modèle", [
             "EfficientNetV2S", "EfficientNetV2M", "ResNet50V2",
             "DenseNet121", "VGG19", "Xception"
         ],
         index=None,
-        placeholder="Choisir une option")
+        placeholder="Choisissez un modèle")
 
 
     demo_source = st.radio(
@@ -179,7 +179,7 @@ with tab1:
         ], 
         key="demo_categorie",
         index=None,
-        placeholder="Choisir une option")
+        placeholder="Choisissez une catégorie de cellule")
 
         if (
             st.session_state.get("demo_categorie_courante") != demo_categorie
@@ -317,7 +317,7 @@ with tab2:
         ], 
         key="compare_categorie",
         index=None, 
-        placeholder="Choisir une option")
+        placeholder="Choisissez une catégorie de cellule")
 
     if (
         st.session_state.get("compare_categorie_courante") != compare_categorie
@@ -455,7 +455,7 @@ with tab3:
         ], 
         key="errors_models",
         index=None,
-        placeholder="Choisir une option")
+        placeholder="Choisissez un modèle")
 
         
 
