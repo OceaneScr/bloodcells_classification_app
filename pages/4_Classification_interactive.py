@@ -27,8 +27,7 @@ st.set_page_config(page_title="Classification interactive",
 
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
-st.title("🔍 Démonstration")
-st.subheader("Classification intéractive d'images de cellule sanguine")
+st.title("🔍 Classification interactive")
 
 vspace(40)
 
