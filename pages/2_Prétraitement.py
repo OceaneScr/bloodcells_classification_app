@@ -127,8 +127,9 @@ with tab1:
 
     with col2:
 
-        img = Image.open(f"{FIGURES_DIR}/kmeans_radii.png").convert("RGB")
+        img = Image.open(f"{FIGURES_DIR}/kmeans_radii2.png").convert("RGB")
         st.image(img, width="stretch")
+        st.caption("Schématisation sur une image segmentée par K-Means. Les couleurs correspondent aux centres des clusters.")
 
 
     st.divider()
