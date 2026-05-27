@@ -233,10 +233,15 @@ with tab1:
     
 with tab2:
 
-    st.subheader("Images d'entrée")
-    c1, c2 = st.columns(2)
-    c1.metric("Résolution", "360 × 360")
-    c2.metric("Format", "RGB · float32")
+    st.subheader("Format des images")
+
+    st.markdown("""
+    <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:1rem;">
+        <div class="metric-card"><div class="metric-label">Résolution</div><div class="metric-value">360 × 360</div></div>
+        <div class="metric-card"><div class="metric-label">Espace colorimétrique</div><div class="metric-value">RGB</div></div>
+        <div class="metric-card"><div class="metric-label">Type</div><div class="metric-value">Float32</div></div>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.divider()
 
