@@ -120,6 +120,30 @@ with tab1:
     
     st.caption("Dimension initiale : 150 × 150 × 3 = 67 500, rendant la classification directe difficile sur CPU.")
 
+    vspace(10)
+    with st.expander("Voir un exemple de segmentation K-Means par type de cellule"):
+        classes = [
+            ("basophil", "Basophile"),
+            ("eosinophil", "Éosinophile"),
+            ("erythroblast", "Érythroblaste"),
+            ("ig", "IG"),
+            ("lymphocyte", "Lymphocyte"),
+            ("monocyte", "Monocyte"),
+            ("neutrophil", "Neutrophile"),
+            ("platelet", "Plaquette"),
+        ]
+        
+        row1 = st.columns(4)
+        row2 = st.columns(4)
+        
+        for i, (filename, label) in enumerate(classes):
+            col = row1[i] if i < 4 else row2[i - 4]
+            with col:
+                img = Image.open(f"images/kmeans/kmeans_{filename}.png")
+                st.image(img, width="stretch")
+                st.markdown(f"<p style='text-align:center; font-size:0.875rem; color:grey; margin-top:-1.5rem'>{label}</p>", unsafe_allow_html=True)
+
+        st.caption("Les couleurs correspondent aux couleurs des centres des clusters, converties en RGB.")
     st.divider()
 
 
