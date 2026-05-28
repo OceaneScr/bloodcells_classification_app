@@ -55,7 +55,7 @@ def load_kmeans_features():
 def plot_hist():
 
     df, clusters = load_kmeans_features()
-    fig, axes = plt.subplots(2, 4, figsize=(12, 6))
+    fig, axes = plt.subplots(2, 4, figsize=(12, 6.5))
 
     y = df["target"].astype("int").to_numpy()
 
@@ -104,6 +104,7 @@ def plot_hist():
 
     plt.tight_layout()
     return fig
+
 
 def plot_history(history_dict):
 
