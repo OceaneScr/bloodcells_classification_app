@@ -5,7 +5,7 @@ import plotly.express as px
 
 from utils.config import vspace
 from utils.config import (
-    COMMON_CSS, PALETTE_FR, UMAP_CSV, FIGURES_DIR,
+    COMMON_CSS, PALETTE_FR, UMAP_CSV,
 )
 
 st.set_page_config(page_title="Preprocessing",
@@ -276,9 +276,9 @@ with tab2:
     st.dataframe(
         pd.DataFrame({
             "Architecture" : ["EfficientNetV2S/M", "ResNet50V2", "DenseNet121", "VGG19", "Xception"],
-            "Normalisation": ["→ [-1, 1]", "Soustraction moyenne ImageNet",
-                                "→ [0, 1] puis centrage",
-                                "Soustraction moyenne pixel par pixel", "→ [-1, 1]"],
+            "Normalisation": ["Mise à l’échelle dans [-1, 1]", "Soustraction de la moyenne ImageNet par canal (RGB)",
+                                "Mise à l’échelle dans [0, 1] puis centrage par la moyenne et l'écart-type ImageNet ",
+                                "Soustraction de la moyenne ImageNet pixel par pixel (BGR)", "Mise à l’échelle dans [-1, 1]"],
         }),
         use_container_width=True, hide_index=True,
     )
