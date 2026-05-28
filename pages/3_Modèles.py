@@ -254,7 +254,7 @@ with tab1:
     vspace(20)
 
     st.subheader("Interprétabilité - SHAP par classe")
-    st.caption("Top 10 des features contribuant à la classification des images pour les modèles XGBoost et LGBM.")
+    st.write("Top 10 des features contribuant à la classification des images pour les modèles XGBoost et LGBM.")
     classe = st.selectbox("Classe", list(CLASSES_FR), key="shap")
     cols = st.columns([0.25, 2, 0.4])
     with cols[1]:
