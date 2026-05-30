@@ -173,12 +173,12 @@ with tab1:
         pd.DataFrame({
             "Classifieur"     : ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
             "Nom complet": ["Support Vector Machine", "Extreme Gradient Boosting", "Light Gradient Boosting Machine", "Ensemble par vote"],
-            "Détail"     : ["Kernel RBF", "Arbres en séquence", "Arbres en parallèle", "Vote soft ou hard"],
+            "Détail"     : ["Kernel RBF", "Arbres en séquence", "Arbres en séquence", "Vote soft"],
             "Particularité": [
-                "Séparation par hyperplan en grande dimension",
-                "Chaque arbre corrige les erreurs du précédent",
-                "Plus rapide que XGBoost, optimisé feuille par feuille",
-                "Réduit la variance par combinaison des modèles",
+                "Hyperplan à marge maximale",
+                "Croissance niveau par niveau (level-wise)",
+                "Croissance feuille par feuille (leaf-wise)",
+                "Agrégation des prédictions",
             ],
         }),
         use_container_width=True,
@@ -194,7 +194,7 @@ with tab1:
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:2;">
             <div style="font-size:13px; color:#888;">🏆 Meilleur modèle ML</div>
             <div style="font-size:28px; font-weight:500; margin:8px 0;">Voting Classifier</div>
-            <div style="font-size:13px; color:#888;">SVM + XGBoost · vote soft</div>
+            <div style="font-size:13px; color:#888;">SVM + XGBoost</div>
         </div>
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:1;">
             <div style="font-size:13px; color:#888;">Accuracy</div>
@@ -427,7 +427,7 @@ with tab3:
 
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
-    st.caption("Ensemble : EfficientNetV2S + VGG19 + ResNet50V2 + Xception · vote soft")
+    st.caption("Ensemble : EfficientNetV2S + VGG19 + ResNet50V2 + Xception")
     st.divider()
 
     st.subheader("Temps computationnels")
