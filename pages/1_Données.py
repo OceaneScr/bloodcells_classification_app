@@ -66,7 +66,7 @@ vspace(20)
 
 st.markdown("""
 <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:1rem;">
-    <div class="metric-card"><div class="metric-label">Images</div><div class="metric-value">17 095</div></div>
+    <div class="metric-card"><div class="metric-label">Images</div><div class="metric-value">17 092</div></div>
     <div class="metric-card"><div class="metric-label">Classes</div><div class="metric-value">8</div></div>
     <div class="metric-card"><div class="metric-label">Résolution</div><div class="metric-value">360×363</div></div>
     <div class="metric-card"><div class="metric-label">Format</div><div class="metric-value">JPG</div></div>
