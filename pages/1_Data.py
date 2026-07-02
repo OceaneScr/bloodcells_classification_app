@@ -5,9 +5,9 @@ from PIL import Image
 import random
 import plotly.express as px
 from utils.config import vspace
-from utils.config import (COMMON_CSS, SAMPLE_DIR, CLASSES_FR, IMG_SIZE_DL, QUALITY_IMAGES)
+from utils.config import (COMMON_CSS, SAMPLE_DIR, CLASSES_EN, IMG_SIZE_DL, QUALITY_IMAGES)
  
-st.set_page_config(page_title="Données", page_icon="🔬", layout="wide")
+st.set_page_config(page_title="Data", page_icon="🔬", layout="wide")
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
  
  
@@ -50,16 +50,16 @@ def get_images_of_class(cls, n=5):
  
 # ── Titre ────────────────────────────────────────────────────────────────────
  
-st.title("🔬 Données")
+st.title("🔬 Data")
 st.divider()
  
 # ── Dataset ──────────────────────────────────────────────────────────────────
  
-st.subheader("Dataset PBC — Peripheral Blood Cells")
+st.subheader("PBC Dataset — Peripheral Blood Cells")
 st.write("""
-Le dataset PBC (Peripheral Blood Cells) est un dataset public de microscopie
-hématologique composé d'images de **cellules sanguines** périphériques acquises
-avec le CellaVision DM96 au laboratoire de l'Hospital Clinic of Barcelona.
+The PBC (Peripheral Blood Cells) dataset is a public hematology microscopy
+dataset composed of images of peripheral blood cells acquired
+with the CellaVision DM96 at the Hospital Clinic of Barcelona laboratory.
 """)
  
 vspace(20)
@@ -68,7 +68,7 @@ st.markdown("""
 <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:1rem;">
     <div class="metric-card"><div class="metric-label">Images</div><div class="metric-value">17 092</div></div>
     <div class="metric-card"><div class="metric-label">Classes</div><div class="metric-value">8</div></div>
-    <div class="metric-card"><div class="metric-label">Résolution</div><div class="metric-value">360×363</div></div>
+    <div class="metric-card"><div class="metric-label">Resolution</div><div class="metric-value">360×363</div></div>
     <div class="metric-card"><div class="metric-label">Format</div><div class="metric-value">JPG</div></div>
 </div>
 """, unsafe_allow_html=True)
@@ -78,10 +78,10 @@ st.divider()
  
 # ── Classes cellulaires ───────────────────────────────────────────────────────
  
-st.subheader("Classes cellulaires")
+st.subheader("Cellular classes")
 st.write(
-    "Ce jeu de données regroupe 8 types de cellules sanguines observées sur des frottis microscopiques. "
-    "Chaque catégorie possède des caractéristiques morphologiques spécifiques que les modèles devront apprendre à distinguer."
+    "This dataset groups **8 types of blood cells** observed on microscopic smears. "
+    "Each category has specific morphological characteristics that models must learn to distinguish."
 )
  
 vspace(30)
@@ -90,10 +90,10 @@ col1, col2 = st.columns([1.2, 2])
 with col1:
     vspace(10)
     classes = [
-        "Basophile", "Éosinophile",
-        "Érythroblaste", "IG",
+        "Basophil", "Eosinophil",
+        "Erythroblast", "IG",
         "Lymphocyte", "Monocyte",
-        "Neutrophile", "Plaquette"
+        "Neutrophil", "Platelet"
     ]
  
     for i in range(0, len(classes), 2):
@@ -103,7 +103,7 @@ with col1:
         with c2:
             st.markdown(f'<div class="class-card">{classes[i+1]}</div>', unsafe_allow_html=True)
  
-    st.caption("IG : Granulocyte immature")
+    st.caption("IG : Immature Granulocyte")
  
 with col2:
     fig = distribution_show()
@@ -113,12 +113,12 @@ st.divider()
  
 # ── Exemples d'images ─────────────────────────────────────────────────────────
  
-st.subheader("Exemples d'images")
+st.subheader("Image examples")
  
-selected = st.selectbox("Catégorie", CLASSES_FR)
+selected = st.selectbox("Category", CLASSES_EN)
 imgs = get_images_of_class(selected, 5)
  
-if st.button("🎲 Afficher d'autres exemples"):
+if st.button("🎲 Show more examples"):
     imgs = get_images_of_class(selected, 5)
  
 cols = st.columns(5)
@@ -130,15 +130,15 @@ st.divider()
  
 # ── Qualité ───────────────────────────────────────────────────────────────────
  
-st.subheader("Qualité des images et limites")
+st.subheader("Image quality and limitations")
 st.write("""
-Les images du dataset PBC présentent globalement une bonne qualité :
-- Images nettes
-- Contraste homogène
-- Cellules centrées
+The images in the PBC dataset generally present good quality :
+- Sharp images
+- Homogeneous contrast
+- Centered cells
  
-Cependant, quelques images contiennent plusieurs cellules nuclées ou sont dépourvues de la cellule cible.
-Il est également à noter qu'une faible proportion d'images présentent un fond rose (2.6 %) .
+However, few images contain multiple nuclei or lack the target cell.
+It should also be noted that a small proportion of images present a pink background (2.6 %) .
 """)
   
 vspace(20)
@@ -155,9 +155,9 @@ st.divider()
  
 st.markdown("""
 <div style="padding:18px; border-radius:8px; background:#f7f7f5; font-size:15px;">
-    📄 <b>Source du dataset</b><br><br>
-    PBC (Peripheral Blood Cells) Dataset — Images acquises avec le <b>CellaVision DM96</b>
-    à l'Hospital Clinic of Barcelona.<br><br>
+    📄 <b>Dataset Source</b><br><br>
+    PBC (Peripheral Blood Cells) Dataset — Images acquired with the <b>CellaVision DM96</b>
+    at the Hospital Clinic of Barcelona.<br><br>
     🔗 <a href="https://data.mendeley.com/datasets/snkd93bnjr/1" target="_blank">
     PBC Dataset - Mendeley Data</a>
 </div>

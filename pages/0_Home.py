@@ -3,13 +3,13 @@ from utils.config import COMMON_CSS
 
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
-st.set_page_config(page_title="Accueil", page_icon="🏠", layout="wide")
-st.title("Classification automatique de cellules sanguines")
+st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
+st.title("Blood Cells Classification")
 
 st.markdown("""
-### Analyse et classification d’images du dataset **PBC (Peripheral Blood Cells)**
+### Analysis and classification of images from the **PBC (Peripheral Blood Cells)** dataset.
 
-Cette application présente un système de classification automatique basé sur des **images microscopiques de cellules sanguines**.
+This application presents an automatic classification system based on **microscopic images of blood cells**.
 """)
 
 st.divider()
@@ -19,15 +19,15 @@ st.divider()
 # ======================
 
  
-st.header("Chiffres clés")
+st.header("Key figures")
  
 
 st.markdown("""
 <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:1rem;">
     <div class="metric-card"><div class="metric-label">Images</div><div class="metric-value">17 092</div></div>
     <div class="metric-card"><div class="metric-label">Classes</div><div class="metric-value">8</div></div>
-    <div class="metric-card"><div class="metric-label">Modèles testés</div><div class="metric-value">10+</div></div>
-    <div class="metric-card"><div class="metric-label">Accuracy max</div><div class="metric-value">99,21%</div></div>
+    <div class="metric-card"><div class="metric-label">Models tested</div><div class="metric-value">10+</div></div>
+    <div class="metric-card"><div class="metric-label">Max accuracy</div><div class="metric-value">99,21%</div></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -36,7 +36,7 @@ st.divider()
 
 
  
-st.header("Deux approches étudiées")
+st.header("Two approaches studied")
  
 col1, col2 = st.columns(2, gap="medium")
  
@@ -44,13 +44,13 @@ with col1:
     st.markdown("""
     <div class="card">
         <h3>⚙️ Machine Learning</h3><br>
-        <div class="section-label">Extraction de caractéristiques</div>
-        <div style="font-size:16px; color:#555;">✓ K-Means espace L*a*b*</div>
-        <div style="font-size:16px; color:#555;">✓ Statistiques intra-clusters</div>
+        <div class="section-label">Feature Extraction</div>
+        <div style="font-size:16px; color:#555;">✓ K-Means in L*a*b* space</div>
+        <div style="font-size:16px; color:#555;">✓ Intra-cluster statistics</div>
         <div style="font-size:16px; color:#555;">✓ GLCM, Sobel</div>
-        <div style="font-size:16px; color:#555;">✓ Réduction de dimensions</div>
+        <div style="font-size:16px; color:#555;">✓ Dimensionality reduction</div>
         <br>
-        <div class="section-label">Modèles</div>
+        <div class="section-label">Models</div>
         <div style="font-size:16px; color:#555;">SVM · XGBoost · LGBM · Voting Classifier</div> </div>
     """, unsafe_allow_html=True)
  
@@ -58,7 +58,7 @@ with col2:
     st.markdown("""
     <div class="card">
         <h3>🧠 Deep Learning</h3><br>
-        <div class="section-label">Méthodes</div>
+        <div class="section-label">Methods</div>
         <div style="font-size:16px; color:#555;">✓ Data augmentation</div>
         <div style="font-size:16px; color:#555;">✓ Transfer learning</div>
         <div style="font-size:16px; color:#555;">✓ Fine tuning</div>
@@ -76,19 +76,19 @@ st.divider()
 # NAVIGATION
 # ======================
 
-st.header("Sommaire")
+st.header("Summary")
 
 st.markdown("""
 
-#### 🔬 Données
-Description du dataset PBC, distribution des classes et exemples.
+#### 🔬 Data
+Description of the PBC dataset, class distribution and examples.
 
-#### ⚙️ Prétraitement
-Préparation des données, extraction de caractéristiques et transformations appliquées aux images.
+#### ⚙️ Preprocessing
+Data preparation, feature extraction and transformations applied to the images.
 
-#### 🧠 Modèles
-Présentation des modèles, performances et interprétabilité.
+#### 🧠 Models
+Overview of the models, performance and interpretability.
 
-#### 🔍 Démonstation
-Classification interactive, Grad-CAM et analyse des erreurs.
+#### 🔍 Interactive classification
+Interactive classification, Grad-CAM and error analysis.
 """)

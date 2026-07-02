@@ -27,14 +27,14 @@ CLASSES_FR_TO_EN = dict(zip(CLASSES_FR, CLASSES_EN))
 
 # --- Classes mapping ---
 CLASSES_MAP = {
-    0: "Basophile",
-    1: "Éosinophile",
-    2: "Érythroblaste",
+    0: "Basophil",
+    1: "Eosinophil",
+    2: "Erythroblast",
     3: "IG",
     4: "Lymphocyte",
     5: "Monocyte",
-    6: "Neutrophile",
-    7: "Plaquette"
+    6: "Neutrophil",
+    7: "Platelet"
 }
 
 ERRORS_MAP = {
@@ -64,9 +64,9 @@ DL_MODELS_DIR = "./models/dl"
 ML_MODELS_DIR = "./models/ml"
 
 QUALITY_IMAGES = {
-    "Cellules doubles": f"{QUALITY_DIR}/doubles.jpg",
-    "Absence de cellule cible": f"{QUALITY_DIR}/nocells.jpg",
-    "Variation de coloration": f"{QUALITY_DIR}/variationcoloration.jpg",
+    "Double cells": f"{QUALITY_DIR}/doubles.jpg",
+    "Absence of target cell": f"{QUALITY_DIR}/nocells.jpg",
+    "Color variation": f"{QUALITY_DIR}/variationcoloration.jpg",
 }
 
 ML_PATH_MAP = {
@@ -131,15 +131,15 @@ TARGET_LAYER_MAP = {
 }
 
 # --- style ---
-PALETTE_FR = {
-    "Basophile"     : "#555555",
-    "Éosinophile"   : "#E74C3C",
-    "Érythroblaste" : "#9B59B6",
+PALETTE = {
+    "Basophil"     : "#555555",
+    "Eosinophil"   : "#E74C3C",
+    "Erythroblast" : "#9B59B6",
     "IG"            : "#FF69B4",
     "Lymphocyte"    : "#27AE60",
     "Monocyte"      : "#A0522D",
-    "Neutrophile"   : "#3498DB",
-    "Plaquette"     : "#F39C12",
+    "Neutrophil"   : "#3498DB",
+    "Platelet"     : "#F39C12",
 }
 
 COMMON_CSS = """

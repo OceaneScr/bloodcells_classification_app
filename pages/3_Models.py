@@ -10,9 +10,9 @@ from matplotlib.ticker import FormatStrFormatter
 import matplotlib.pyplot as plt
 import plotly.express as px
 from utils.config import vspace
-from utils.config import (COMMON_CSS, CLASSES_FR, RESULTS_DIR, CLASSIFIER_MAP, MODEL_MAP,)
+from utils.config import (COMMON_CSS, CLASSES_EN, RESULTS_DIR, CLASSIFIER_MAP, MODEL_MAP,)
 
-st.set_page_config(page_title="Modèles",
+st.set_page_config(page_title="Models",
                    page_icon="🧠", layout="wide")
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
@@ -28,18 +28,18 @@ def load_report(path):
 
             if parts[0].isdigit():
                 rows_classes.append({
-                    "Classe"   : CLASSES_FR[int(parts[0])],
-                    "Précision": f"{float(parts[1]):.3f}",
-                    "Rappel"   : f"{float(parts[2]):.3f}",
+                    "Class"   : CLASSES_EN[int(parts[0])],
+                    "Precision": f"{float(parts[1]):.3f}",
+                    "Recall"   : f"{float(parts[2]):.3f}",
                     "F1-score" : f"{float(parts[3]):.3f}",
                 })
             # Ligne accuracy
             elif parts[0] in ("accuracy", "macro", "weighted"):
                 label = "Accuracy" if parts[0] == "accuracy" else ("Macro avg" if parts[0] == "macro" else "Weighted avg")
                 rows_global.append({
-                    "Métrique" : label,
-                    "Précision": f"{float(parts[2]):.3f}",
-                    "Rappel"   : f"{float(parts[3]):.3f}",
+                    "Metric" : label,
+                    "Precision": f"{float(parts[2]):.3f}",
+                    "Recall"   : f"{float(parts[3]):.3f}",
                     "F1-score" : f"{float(parts[4]):.3f}",
                 })
  
@@ -135,7 +135,7 @@ def plot_importance():
         yaxis_title="",
         yaxis={'categoryorder': 'total ascending'},
         margin=dict(l=0, r=0, t=0, b=0),
-        xaxis_title="Moyenne des valeurs absolues des SHAP values",
+        xaxis_title="Mean absolute SHAP value",
     )
     #fig.update_xaxes(range=[0, 22])
     return fig
@@ -154,18 +154,18 @@ def plot_history(history_dict):
 
     loss_fig, ax1 = plt.subplots(figsize=(4, 3.2), dpi=300)
 
-    ax1.plot(epochs, loss, label="Entraînement",linewidth=1.5, color=train_color)
+    ax1.plot(epochs, loss, label="Training",linewidth=1.5, color=train_color)
     ax1.plot(epochs, val_loss, label="Validation",linewidth=1.5,
          marker="o",
          markersize=2, color=val_color)
     ax1.spines["top"].set_visible(False)
     ax1.spines["right"].set_visible(False)
-    ax1.set_xlabel("Époque", fontsize=8.5)
+    ax1.set_xlabel("Epoch", fontsize=8.5)
     ax1.tick_params(labelsize=8)
     ax1.grid(True, which="both", linestyle="--", linewidth=0.3, color="#cccccc", alpha=0.5)
     ax1.legend(loc="upper right", fontsize=8, frameon=False)
     ax1.set_title(
-        "Fontion de perte",
+        "Loss Function",
         fontsize=11,
         fontweight="semibold",
         fontfamily="Arial",
@@ -175,13 +175,13 @@ def plot_history(history_dict):
 
     # Accuracy
     acc_fig, ax2 = plt.subplots(figsize=(4, 3.2), dpi=300)
-    ax2.plot(epochs, acc, label="Entraînement",linewidth=1.5, color=train_color)
+    ax2.plot(epochs, acc, label="Training",linewidth=1.5, color=train_color)
     ax2.plot(epochs, val_acc, label="Validation", linewidth=1.5,
          marker="o",
          markersize=2, color=val_color)
     ax2.spines["top"].set_visible(False)
     ax2.spines["right"].set_visible(False)
-    ax2.set_xlabel("Époque", fontsize=8.5)
+    ax2.set_xlabel("Epoch", fontsize=8.5)
     ax2.tick_params(labelsize=8)
     ax2.grid(True, which="both", linestyle="--", linewidth=0.3, color="#cccccc", alpha=0.5)
     ax2.legend(loc="lower right", fontsize=8, frameon=False)
@@ -210,36 +210,36 @@ def read(history_path):
     return history_dict
 
 
-st.title("🧠 Modèles")
-st.subheader("Présentation des modèles et résultats associés")
+st.title("🧠 Models")
+st.subheader("Overview of the models and associated results")
 
 vspace(40)
 
 tab1,tab2, tab3 = st.tabs([
-    "Approche ML",
-    "Approche DL",
-    "Comparaison",
+    "ML Approach",
+    "DL Approach",
+    "Comparison",
 ])
 
 with tab1:
 
-    st.subheader("Classifieurs")
+    st.subheader("Classifiers")
 
 
     st.markdown("""
-    Les classifieurs reçoivent en entrée le **vecteur de 99 features** extrait par le pipeline K-Means.
+    The classifiers take as input the **99-feature vector** extracted by the K-Means pipeline.
     """)
 
     st.dataframe(
         pd.DataFrame({
-            "Classifieur"     : ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
+            "Classifier"     : ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
             "Nom complet": ["Support Vector Machine", "Extreme Gradient Boosting", "Light Gradient Boosting Machine", "Ensemble par vote"],
-            "Détail"     : ["Kernel RBF", "Arbres en séquence", "Arbres en séquence", "Vote soft"],
-            "Particularité": [
-                "Hyperplan à marge maximale",
-                "Croissance niveau par niveau (level-wise)",
-                "Croissance feuille par feuille (leaf-wise)",
-                "Agrégation des prédictions",
+            "Detail"     : ["RBF kernel", "Sequential trees", "Sequential trees", "Soft voting"],
+            "Distinctive feature": [
+                "Maximum-margin hyperplane",
+                "Level-wise growth",
+                "Leaf-wise growth",
+                "Aggregation of predictions",
             ],
         }),
         use_container_width=True,
@@ -253,7 +253,7 @@ with tab1:
     st.markdown("""
     <div style="display:flex; gap:16px; align-items:stretch; margin-bottom:1rem;">
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:2;">
-            <div style="font-size:13px; color:#888;">🏆 Meilleur modèle ML</div>
+            <div style="font-size:13px; color:#888;">🏆 Best ML model</div>
             <div style="font-size:28px; font-weight:500; margin:8px 0;">Voting Classifier</div>
             <div style="font-size:13px; color:#888;">SVM + XGBoost</div>
         </div>
@@ -272,14 +272,14 @@ with tab1:
     classifiers_name = ["SVM", "XGBoost", "LGBM", "Voting Classifier"]
 
     vspace(10)
-    selected_ml = st.selectbox("Sélectionner un classifieur", classifiers_name,
+    selected_ml = st.selectbox("Select a classifier", classifiers_name,
                                 key="classifier_select")
     
     vspace(20)
     col_left, col_right = st.columns([1, 1.5])
     
     with col_left:
-        st.markdown("<div style='text-align: center;'><b>Rapport de classification</b></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center;'><b>Classification report</b></div>", unsafe_allow_html=True)
         path_rp = f"{RESULTS_DIR}/reports/classification_report_{CLASSIFIER_MAP.get(selected_ml)}.txt"
         df_classes, df_global = load_report(path_rp)
 
@@ -289,25 +289,25 @@ with tab1:
 
     
     with col_right:
-        st.markdown("<div style='text-align: center;'><b>Matrice de confusion</b></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center;'><b>Confusion matrix</b></div>", unsafe_allow_html=True)
         vspace(5)
         path_cm = f"{RESULTS_DIR}/cm/confusion_matrix_{CLASSIFIER_MAP.get(selected_ml)}.png"
         st.image(Image.open(path_cm), width="stretch")
 
-    st.caption("Métriques obtenues sur la base de test (base d'entraînement : 80%, test 20%).")
-    with st.expander("Résultats Validation Croisée 5-Fold (CV5)"):
+    st.caption("Metrics obtained on the test set (training set: 80%, test: 20%).")
+    with st.expander("5-Fold cross-validation results (CV5)"):
         data_cv5 = {
-            "Modèle": ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
+            "Model": ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
             "Accuracy (%)": ["98.12 ± 0.35", "97.66 ± 0.40", "97.93 ± 0.32", "98.29 ± 0.36"],
             "F1 macro (%)": ["98.23 ± 0.37", "97.69 ± 0.46", "98.02 ± 0.37", "98.42 ± 0.37"],
         }
         st.dataframe(data_cv5)
-        st.caption("La CV5 n'a pas été appliquée aux modèles DL en raison du coût computationnel.")
+        st.caption("CV5 was not applied to the DL models due to computational cost.")
     st.divider()
 
-    st.subheader("Interprétabilité - K-Means")
+    st.subheader("Interpretability- K-Means")
 
-    st.write("La figure ci-dessous donne un aperçu de la répartition moyenne des pixels entre les 8 clusters pour chaque type cellulaire. Chaque type cellulaire a une signature colorimétrique caractéristique. La couleur de chaque carré correspond à la couleur du centre du cluster, convertie en RGB.")
+    st.write("The figure below gives an overview of the average pixel distribution across the 8 clusters for each cell type, which has a characteristic color signature. The color of each square corresponds to the color of the cluster center, converted to RGB.")
 
     vspace(10)
 
@@ -315,12 +315,12 @@ with tab1:
     with col2:
         fig = plot_hist()
         st.pyplot(fig)
-    st.caption("BA : basophile, EO : éosinophile,  ERB : érythroblaste, IG : granulocyte immature, LY : lymphocyte, MO : monocyte, SNE : neutrophile, PLT : plaquette")
+    st.caption("BA : basophil, EO : eosinophil,  ERB : erythroblast, IG : immature granulocyte, LY : lymphocyte, MO : monocyte, SNE : neutrophil, PLT : platelet")
  
     vspace(20)
 
-    st.subheader("Interprétabilité - SHAP")
-    st.write("Top 15 des features contribuant à la classification des images pour les modèles XGBoost et LGBM. Les modèles exploitent les couleurs, proportions, textures et la localisation spatiale pour effectuer la classification.")
+    st.subheader("Interpretability - SHAP")
+    st.write("Top 15 features contributing to image classification for the XGBoost and LGBM models. The models rely on colors, proportions, textures and spatial location to perform classification.")
 
     vspace(10)
     col1, col2 = st.columns([0.9, 0.2])
@@ -328,10 +328,10 @@ with tab1:
         fig = plot_importance()
         st.plotly_chart(fig, use_container_width=True)
 
-    st.caption("Lire : 'Hist 1': proportion du cluster 1, 'Intra mean 1 L' -> moyenne intra-cluster 1 sur la composante L*, 'r1 hist 1' -> proportion du cluster 1 dans le premier anneau concentrique.")
+    st.caption("Read: 'Hist 1': proportion of cluster 1, 'Intra mean 1 L' -> intra-cluster 1 mean on the L* component, 'r1 hist 1' -> proportion of cluster 1 in the first concentric ring.")
 
-    with st.expander("Voir les SHAP values détaillées par classe"):
-        classe = st.selectbox("Classe", list(CLASSES_FR), key="shap")
+    with st.expander("View detailed SHAP values by class"):
+        classe = st.selectbox("Class", list(CLASSES_EN), key="shap")
         cols = st.columns([0.25, 2, 0.4])
         with cols[1]:
             st.image(f"images/shap/shap_{classe}.png")
@@ -343,14 +343,14 @@ with tab2:
     st.subheader("Architectures")
 
     st.markdown("""
-    Tous les modèles DL utilisent le **Transfer Learning** : pré-entraînés sur ImageNet,
-    puis fine-tunés sur le dataset PBC.
+    All DL models use **Transfer Learning**: pretrained on ImageNet,
+    then fine-tuned on the PBC dataset
     """)
 
     st.dataframe(
         pd.DataFrame({
             "Architecture" : ["EfficientNetV2S", "EfficientNetV2M", "ResNet50V2", "DenseNet121", "VGG19", "Xception"],
-            "Nom complet"  : [
+            "Full Name"  : [
                 "EfficientNet V2 Small",
                 "EfficientNet V2 Medium",
                 "Residual Network 50 V2",
@@ -358,14 +358,14 @@ with tab2:
                 "Very Deep CNN 19",
                 "Extreme Inception",
             ],
-            "Paramètres"   : ["21M", "54M", "25M", "8M", "143M", "22M"],
-            "Particularité": [
-                "Optimisée pour le compromis précision/coût de calcul",
-                "Version plus profonde d'EfficientNetV2S",
-                "Connexions résiduelles ",
-                "Connexions denses",
-                "Référence historique",
-                "Convolutions séparables en profondeur",
+            "Parameters"   : ["21M", "54M", "25M", "8M", "143M", "22M"],
+            "Distinctive feature": [
+                "Optimized for the accuracy/compute cost trade-off",
+                "Deeper version of EfficientNetV2S",
+                "Residual connections",
+                "Dense connections",
+                "Historical reference",
+                "Depthwise separable convolutions",
             ],
         }),
         use_container_width=True,
@@ -379,7 +379,7 @@ with tab2:
     st.markdown("""
     <div style="display:flex; gap:16px; align-items:stretch; margin-bottom:1rem;">
         <div style="background:#f8f8f8; border-radius:10px; padding:16px 24px; flex:2;">
-            <div style="font-size:13px; color:#888;">🏆 Meilleur modèle DL</div>
+            <div style="font-size:13px; color:#888;">🏆 Best DL Model</div>
             <div style="font-size:28px; font-weight:500; margin:8px 0;">Ensemble</div>
             <div style="font-size:13px; color:#888;">EfficientNetV2S + VGG19 + ResNet50V2 + Xception</div>
         </div>
@@ -398,7 +398,7 @@ with tab2:
 
     vspace(10)
 
-    selected_dl = st.selectbox("Sélectionner un modèle", model_name, key="model_select")
+    selected_dl = st.selectbox("Select a model", model_name, key="model_select")
     
     vspace(20)
 
@@ -406,7 +406,7 @@ with tab2:
     
     with col_left:
 
-        st.markdown("<div style='text-align: center;'><b>Rapport de classification</b></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center;'><b>Classification report</b></div>", unsafe_allow_html=True)
         path_rp = f"{RESULTS_DIR}/reports/classification_report_{MODEL_MAP.get(selected_dl)}.txt"
         df_classes, df_global = load_report(path_rp)
 
@@ -415,19 +415,19 @@ with tab2:
         st.dataframe(df_global, use_container_width=True, hide_index=True)
 
     with col_right:
-        st.markdown("<div style='text-align: center;'><b>Matrice de confusion</b></div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center;'><b>Confusion matrix</b></div>", unsafe_allow_html=True)
         vspace(5)
         path_cm = f"{RESULTS_DIR}/cm/confusion_matrix_{MODEL_MAP.get(selected_dl)}.png"
         st.image(Image.open(path_cm), width="stretch")
 
-    st.caption("Résultats obtenus sur la même base de test que l'approche ML (base d'entraînement : 60%, validation : 20%, test : 20%).")
+    st.caption("Results obtained on the same test set as the ML approach (training set : 60%, validation : 20%, test : 20%).")
 
     st.divider()
 
-    st.subheader("Courbes d'apprentissage")
+    st.subheader("Learning curves")
 
     if selected_dl == "Ensemble (EfficientNetV2S + VGG19 + ResNet50V2 + Xception)":
-        st.write("Le modèle d'ensemble ne dispose pas de courbes d'apprentissage propre, car ses prédictions résultent d'un vote par moyenne pondérée des probabilités (soft voting) des modèles qui le composent, et non d'un entraînement indépendant.")
+        st.write("The ensemble model has no learning curves since its predictions result from a soft voting (weighted average of probabilities) of its component models.")
     if selected_dl != "Ensemble (EfficientNetV2S + VGG19 + ResNet50V2 + Xception)":
         history_path = f"{RESULTS_DIR}/history/history_{MODEL_MAP.get(selected_dl)}.jsonl"
         history_dict = read(history_path)
@@ -445,22 +445,22 @@ with tab2:
 
 with tab3:
 
-    st.subheader("Comparaison des performances")
+    st.subheader("Performance comparison")
 
 
     col1, col2 = st.columns([1,1.5])
 
     with col1:
         df_scores = pd.DataFrame({
-            "Approche": ["ML", "ML", "ML", "ML", "DL", "DL", "DL", "DL", "DL", "DL", "DL"],
-            "Modèle": ["SVM", "XGBoost", "LGBM", "Voting Classifier", 
+            "Approach": ["ML", "ML", "ML", "ML", "DL", "DL", "DL", "DL", "DL", "DL", "DL"],
+            "Model": ["SVM", "XGBoost", "LGBM", "Voting Classifier", 
                         "EfficientNetV2S", "EfficientNetV2M", "DenseNet121", 
                         "ResNet50V2", "VGG19", "Xception", "Ensemble"],
             "Accuracy (%)": [98.33, 97.72, 97.83, 98.39, 98.97, 98.92, 98.89, 98.77, 98.97, 98.62, 99.21],  
             "F1 macro (%)": [98.42, 97.72, 97.82, 98.51, 99.02, 98.95, 98.90, 98.87, 99.03, 98.64, 99.24],      
         })
 
-        st.dataframe(df_scores[["Modèle", "Accuracy (%)", "F1 macro (%)"]], use_container_width=True, hide_index=True)
+        st.dataframe(df_scores[["Model", "Accuracy (%)", "F1 macro (%)"]], use_container_width=True, hide_index=True)
 
     with col2:
 
@@ -469,18 +469,18 @@ with tab3:
         fig = px.scatter(
             df_sorted,
             x="Accuracy (%)",
-            y="Modèle",
-            color="Approche",
+            y="Model",
+            color="Approach",
             color_discrete_map={"DL": "#1D9E75", "ML": "#888780"},
-            hover_data={"Approche": False, "Accuracy (%)": ":.2f", "F1 macro (%)": ":.2f"},
-            category_orders={"Modèle": df_sorted["Modèle"].tolist()},
+            hover_data={"Approach": False, "Accuracy (%)": ":.2f", "F1 macro (%)": ":.2f"},
+            category_orders={"Model": df_sorted["Model"].tolist()},
         )
 
         for _, row in df_sorted.iterrows():
             fig.add_shape(type="line",
                 x0=96.5, x1=row["Accuracy (%)"],
-                y0=row["Modèle"], y1=row["Modèle"],
-                line=dict(color="#9FE1CB" if row["Approche"] == "DL" else "#D3D1C7", width=2),
+                y0=row["Model"], y1=row["Model"],
+                line=dict(color="#9FE1CB" if row["Approach"] == "DL" else "#D3D1C7", width=2),
                 layer="below")
             
         fig.update_layout(
@@ -495,18 +495,18 @@ with tab3:
 
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
-    st.caption("Ensemble : EfficientNetV2S, VGG19, ResNet50V2 et Xception")
+    st.caption("Ensemble : EfficientNetV2S, VGG19, ResNet50V2 and Xception")
     st.divider()
 
-    st.subheader("Temps computationnels")
+    st.subheader("Computational times")
 
-    st.write("Le tableau ci-dessous présente les temps d'entraînement et d'inférence pour les approches ML (CPU) et DL (GPU).")
+    st.write("The table below shows the training and inference times for the ML (CPU) and DL (GPU) approaches.")
 
     df_temps = pd.DataFrame({
-        "": ["Training", "Inférence globale", "Inférence unitaire"],
+        "": ["Training", "Overall Inference", "Unit Inference"],
         "ML ": ["45 s", "2 - 3 ms/image", "4 - 5 ms/image"], 
         "DL ": ["1 – 3 h", "10 - 25  ms/image", "230 - 740 ms/image"],
     })
 
     st.dataframe(df_temps, use_container_width=True, hide_index=True)
-    st.caption("L'inférence globale porte sur l'ensemble de test (avec batchs de taille 32 pour le DL).")
+    st.caption("Overall inference covers the entire test set (with batches of size 32 for DL).")

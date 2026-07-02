@@ -5,7 +5,7 @@ import plotly.express as px
 
 from utils.config import vspace
 from utils.config import (
-    COMMON_CSS, PALETTE_FR, UMAP_CSV,
+    COMMON_CSS, PALETTE, UMAP_CSV,
 )
 
 st.set_page_config(page_title="Preprocessing",
@@ -15,29 +15,29 @@ st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
 @st.cache_data
 def load_umap(path):
-    return pd.read_csv(path)
+    return pd.read_csv(path, sep=';')
 
 
-st.title("⚙️ Prétraitement")
+st.title("⚙️ Preprocessing")
 
 vspace(40)
 
 tab1,tab2 = st.tabs([
-    "Pipeline ML",
-    "Pipeline DL",
+    "ML Pipeline ",
+    "DL Pipeline",
 ])
 
 
 with tab1:
-    st.subheader("Extraction de caractéristiques")
+    st.subheader("Feature extraction")
 
-    st.markdown("Le pipeline de machine learning transforme chaque image en un **vecteur de 99 features**.")
+    st.markdown("The machine learning pipeline transforms each image into a **99-dimensional feature vector**.")
 
     st.markdown("""
     <div style="display:flex; align-items:center; gap:8px; margin:20px 0;">
         <div style="background:#f8f8f8; border-radius:10px; padding:14px 20px; text-align:center; flex:1;">
             <div style="font-size:20px;">🔬</div>
-            <div style="font-weight:600; margin:4px 0;">Images RGB</div>
+            <div style="font-weight:600; margin:4px 0;">RGB Images</div>
             <div style="font-size:12px; color:#888;">360 × 363</div>
         </div>
         <div style="font-size:20px; color:#ccc;">→</div>
@@ -69,7 +69,7 @@ with tab1:
 
     st.divider()
 
-    st.subheader("Composition du vecteur de features")
+    st.subheader("Feature description")
 
 
     df = pd.DataFrame({
@@ -83,22 +83,22 @@ with tab1:
                 "Texture",
             ],
             "Feature"   : [
-                "Histogrammes clusters",
-                "Moyennes intra-clusters",
-                "Écart-types intra-clusters",
-                "Histogrammes radiaux",
-                "Statistiques globales",
+                "Cluster histograms",
+                "Intra-cluster means",
+                "Intra-cluster standard deviations",
+                "Radial histograms",
+                "Global statistics",
                 "GLCM",
                 "Sobel",
             ],
             "Description": [
-                "Distribution globale des 8 clusters",
-                "Moyenne par cluster sur L*, a* et b*",
-                "Écart-type par cluster sur L*, a* et b*",
-                "4 anneaux concentriques × 8 clusters",
-                "Moyenne et écart-type sur L*, a* et b*",
-                "Contraste, homogénéité et énergie",
-                "Moyenne et écart-type de la magnitude du gradient ",
+                "Overall distribution across the 8 clusters",
+                "Mean per cluster on L*, a* et b*",
+                "Standard deviation per cluster on L*, a* et b*",
+                "4 concentric rings × 8 clusters",
+                "Mean and standard deviation on L*, a* et b*",
+                "Contrast, homogeneity and energy",
+                "Mean and standard deviation of the gradient magnitude ",
             ],
         "Dimension":[8, 24, 24, 32, 6, 3, 2]
     })
@@ -108,7 +108,7 @@ with tab1:
         use_container_width=True,
         hide_index=True,
     )
-    st.metric("Dimension totale", "99")
+    st.metric("Total dimension", "99")
 
 
     # with col2:
@@ -120,16 +120,16 @@ with tab1:
     #st.caption("Dimension initiale : 90 × 90 × 3 = 24 300, rendant la classification directe difficile sur CPU.")
 
     vspace(10)
-    with st.expander("Voir un exemple de segmentation K-Means par type de cellule"):
+    with st.expander("See a K-Means segmentation example by cell type"):
         classes = [
-            ("basophile", "Basophile"),
-            ("eosinophile", "Éosinophile"),
-            ("erythroblaste", "Érythroblaste"),
+            ("basophile", "Basophil"),
+            ("eosinophile", "Eosinophil"),
+            ("erythroblaste", "Erythroblast"),
             ("ig", "IG"),
             ("lymphocyte", "Lymphocyte"),
             ("monocyte", "Monocyte"),
-            ("neutrophile", "Neutrophile"),
-            ("plaquette", "Plaquette"),
+            ("neutrophile", "Neutrophil"),
+            ("plaquette", "Platelet"),
         ]
         
         row1 = st.columns(4)
@@ -142,13 +142,13 @@ with tab1:
                 st.image(img, width="stretch")
                 st.markdown(f"<p style='text-align:center; font-size:0.875rem; color:grey; margin-top:-1.5rem'>{label}</p>", unsafe_allow_html=True)
 
-        st.caption("Les couleurs correspondent aux couleurs des centres des clusters, converties en RGB.")
+        st.caption("The colors correspond to the colors of the cluster centers, converted to RGB.")
     st.divider()
 
 
-    st.subheader("UMAP — projection des features")
+    st.subheader("UMAP — Feature projection")
 
-    st.write("Projection UMAP des images du dataset à partir des 99 features extraites pour chacune d'elles. Chaque point représente une image, coloré selon sa classe cellulaire.")
+    st.write("UMAP projection of the dataset images based on the 99 features extracted for each of them. Each point represents an image, colored according to its cell class.")
 
     df_umap = load_umap(UMAP_CSV)
     classes = sorted(df_umap["label"].unique())
@@ -186,11 +186,11 @@ with tab1:
             value=2.5,
             step=0.5,
             key="point_size",
-            label="Taille des points"
+            label="Point size"
         )
 
         opacity = st.slider(
-            "Opacité",
+            "Opacity",
             min_value=0.1,
             max_value=1.0,
             value=0.5,
@@ -198,7 +198,7 @@ with tab1:
             key="opacity",
                     )
 
-        st.button("Réinitialiser", on_click=reset)
+        st.button("Reset", on_click=reset)
 
     df_plot = df_umap[
         df_umap["label"].isin(selected_classes)
@@ -212,12 +212,12 @@ with tab1:
             x="umap_1",
             y="umap_2",
             color="label",
-            color_discrete_map=PALETTE_FR,
+            color_discrete_map=PALETTE,
             hover_name="label",
             labels={
                 "umap_1":"UMAP dim 1",
                 "umap_2":"UMAP dim 2",
-                "label":"Classe"
+                "label":"Class"
             },
            # title=f"{len(df_plot):,} cellules · {len(selected_classes)} classes",
             opacity=opacity,
@@ -230,7 +230,7 @@ with tab1:
 
         fig_umap.update_layout(
             height=550,
-            legend_title="Classe cellulaire",
+            legend_title="Cellular Class",
             legend_title_font=dict(size=15),
             plot_bgcolor="white",
             #title_font=dict(size=20, color="#1a1a1a"),
@@ -243,42 +243,42 @@ with tab1:
 
     vspace(20)
 
-    st.caption("Cette projection montre que les features extraites sont globalement discriminantes, avec des clusters bien séparés pour la majorité des classes. Cependant, certaines classes présentent un chevauchement partiel, correspondant aux catégories de cellules les plus proches morphologiquement.")
+    st.caption("This projection shows that the extracted features are overall discriminative, with well-separated clusters for most classes. However, some classes show partial overlap, corresponding to the most morphologically similar cell categories.")
     
 with tab2:
 
-    st.subheader("Format des images")
+    st.subheader("Image format")
 
     st.markdown("""
     <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:1rem;">
-        <div class="metric-card"><div class="metric-label">Résolution</div><div class="metric-value">360 × 360</div></div>
-        <div class="metric-card"><div class="metric-label">Espace colorimétrique</div><div class="metric-value">RGB</div></div>
+        <div class="metric-card"><div class="metric-label">Resolution</div><div class="metric-value">360 × 360</div></div>
+        <div class="metric-card"><div class="metric-label">Color space</div><div class="metric-value">RGB</div></div>
         <div class="metric-card"><div class="metric-label">Type</div><div class="metric-value">Float32</div></div>
     </div>
     """, unsafe_allow_html=True)
 
     st.divider()
 
-    st.subheader("Data Augmentation")
-    st.caption("Augmentation des images du jeu d'entraînement pour améliorer la capacité de généralisation des modèles")
+    st.subheader("Data augmentation")
+    st.caption("Augmentation of the training set images to improve the models' generalization ability.")
     st.dataframe(
         pd.DataFrame({
             "Transformation": ["RandomFlip", "RandomRotation"],
-            "Paramètre"     : ["Horizontal + Vertical", "factor = 0.2 (± 72°)"],
+            "Parameter"     : ["Horizontal + Vertical", "factor = 0.2 (± 72°)"],
         }),
         use_container_width=True, hide_index=True,
     )
 
     st.divider()
 
-    st.subheader("Normalisation des images")
-    st.caption("Normalisation des images spécifique à chaque architecture, correspondant à celle appliquée lors du pré-entraînement sur ImageNet.")
+    st.subheader("Image normalization")
+    st.caption("Image normalization specific to each architecture, matching the one applied during pretraining on ImageNet.")
     st.dataframe(
         pd.DataFrame({
             "Architecture" : ["EfficientNetV2S/M", "ResNet50V2", "DenseNet121", "VGG19", "Xception"],
-            "Normalisation": ["Mise à l’échelle dans [-1, 1]", "Soustraction de la moyenne ImageNet par canal (RGB)",
-                                "Mise à l’échelle dans [0, 1] puis centrage par la moyenne et l'écart-type ImageNet ",
-                                "Soustraction de la moyenne ImageNet pixel par pixel (BGR)", "Mise à l’échelle dans [-1, 1]"],
+            "Normalization":  ["Scaling to [-1, 1]", "Subtraction of the per-channel ImageNet mean (RGB)",
+                                "Scaling to [0, 1] then centering using the ImageNet mean and standard deviation",
+                                "Subtraction of the pixel-wise ImageNet mean (BGR)", "Scaling to [-1, 1]"],
         }),
         use_container_width=True, hide_index=True,
     )

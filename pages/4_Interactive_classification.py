@@ -13,7 +13,7 @@ from huggingface_hub import hf_hub_download
 
 # Local import
 from utils.config import (
-    COMMON_CSS, CLASSES_MAP, CLASSES_FR, SAMPLE_DIR,
+    COMMON_CSS, CLASSES_MAP, CLASSES_EN, SAMPLE_DIR,
     IMG_SIZE_DL, IMG_SIZE_ML, ERRORS_DIR, MODEL_MAP, 
     ML_PATH_MAP, DL_PATH_MAP, REPO_ID, GRADCAM_PATH_MAP,
     ERRORS_MAP,
@@ -22,12 +22,12 @@ from utils.config import (
 from utils.config import vspace
 from utils.gradcam import grad_cam
 
-st.set_page_config(page_title="Classification interactive",
+st.set_page_config(page_title="Interactive classification",
                    page_icon="🔍", layout="wide")
 
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
-st.title("🔍 Classification interactive")
+st.title("🔍 Interactive classification")
 
 vspace(40)
 
@@ -68,10 +68,10 @@ def get_missclassified_img(model_name):
         img = img.resize(IMG_SIZE_DL)
 
         filename = os.path.basename(path) 
-        img_classe = ERRORS_MAP.get(filename.split("_")[0])
+        img_classe = filename.split("_")[0]
 
         imgs.append(img)
-        imgs_classe.append(img_classe )
+        imgs_classe.append(img_classe)
 
     return imgs, imgs_classe 
 
@@ -142,19 +142,19 @@ for k,v in defaults.items():
         st.session_state[k]=v
 
 tab1,tab2,tab3 = st.tabs([
-    "Classification d'une image",
-    "Comparaison des modèles",
-    "Visualisation des erreurs"
+    "Image classification",
+    "Model comparison",
+    "Error visualization"
 ])     
 
 
 # =========================================================================================================
 with tab1:  
-    st.subheader("Classification d'une image")
+    st.subheader("Image classification")
     
-    st.caption("Classification d'une image de cellule sanguine à partir d'un modèle de machine learning ou de deep learning.")
+    st.caption("Classification of a blood cell image using a machine learning or deep learning model.")
     demo_approche = st.radio(
-        "Approche",
+        "Approach",
         ["Machine Learning", "Deep Learning"],
         horizontal=True,
         key="demo_approche"
@@ -162,21 +162,21 @@ with tab1:
 
     demo_model = None
     if demo_approche == "Machine Learning":
-        demo_model = st.selectbox("Modèle", ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
+        demo_model = st.selectbox("Model", ["SVM", "XGBoost", "LGBM", "Voting Classifier"],
         index=None,
-        placeholder="Selectionnez un modèle")
+        placeholder="Select a model")
     else:
-        demo_model = st.selectbox("Modèle", [
+        demo_model = st.selectbox("Model", [
             "EfficientNetV2S", "EfficientNetV2M", "ResNet50V2",
             "DenseNet121", "VGG19", "Xception"
         ],
         index=None,
-        placeholder="Selectionnez un modèle")
+        placeholder="Select a model")
 
 
     demo_source = st.radio(
-        "Sélection de l'image",
-        ["Base de données", "Importer une image"], 
+        "Image source",
+        ["Database", "Upload an image"], 
         horizontal=True, 
         key="demo_source"
     )
@@ -184,14 +184,14 @@ with tab1:
     demo_image = None
     demo_categorie = None
 
-    if demo_source == "Base de données":
-        demo_categorie = st.selectbox("Catégorie", [
-            "Basophile", "Éosinophile", "Érythroblaste", "IG",
-            "Lymphocyte", "Monocyte", "Neutrophile", "Plaquette"
+    if demo_source == "Database":
+        demo_categorie = st.selectbox("Category", [
+            "Basophil", "Eosinophil", "Erythroblast", "IG",
+            "Lymphocyte", "Monocyte", "Neutrophil", "Platelet"
         ], 
         key="demo_categorie",
         index=None,
-        placeholder="Selectionnez une catégorie de cellule")
+        placeholder="Select a cell category")
 
         if (
             st.session_state.get("demo_categorie_courante") != demo_categorie
@@ -206,7 +206,7 @@ with tab1:
             st.session_state.demo_gradcam_im = None
 
         if demo_categorie is not None:
-            if st.button("🎲 Nouveaux exemples", key="demo_random"):
+            if st.button("🎲 New examples", key="demo_random"):
                 st.session_state.demo_imgs_categorie = get_images_of_class(demo_categorie, n=6)
                 st.session_state.demo_selected_image = None
                 st.session_state.demo_selected_idx = None
@@ -236,15 +236,15 @@ with tab1:
         demo_image = st.session_state.demo_selected_image
 
     else:
-        uploaded = st.file_uploader("Choisir une image", type=["png", "jpg", "jpeg"])
+        uploaded = st.file_uploader("Choose an image", type=["png", "jpg", "jpeg"])
         st.caption(
             """
             ℹ️ **Important**
 
-            Les modèles ont été entraînés sur les images du jeu de données PBC.
-            Les performances peuvent être dégradées sur des images acquises dans des conditions différentes.
-            Les modèles de Machine Learning utilisant un prétraitement par clustering K-Means
-            sont particulièrement sensibles aux variations de coloration.
+            The models were trained on images from the PBC dataset.
+            Performance may be degraded on images acquired under different conditions.
+            Machine Learning models using K-Means clustering preprocessing
+            are particularly sensitive to color variations.
             """
         )
         if uploaded:
@@ -252,8 +252,8 @@ with tab1:
 
     st.divider()
 
-    if demo_image and demo_model and st.button("🔮 Prédire", disabled=demo_image is None):
-        with st.spinner("Analyse en cours..."):
+    if demo_image and demo_model and st.button("🔮  Predict", disabled=demo_image is None):
+        with st.spinner("Analyzing..."):
 
             if demo_approche == "Machine Learning":
 
@@ -269,18 +269,18 @@ with tab1:
 
                     if demo_categorie is not None:
                         if label == demo_categorie:
-                            st.success(f"**Classe prédite : {label}**")
+                            st.success(f"**Predicted class : {label}**")
                         else:
-                            st.error(f"**Classe prédite : {label}**")
+                            st.error(f"**Predicted class : {label}**")
                     else: 
-                        st.info(f"**Classe prédite : {label}**")
+                        st.info(f"**Predicted class : {label}**")
 
                     df_probas = pd.DataFrame({
-                        "Classe": CLASSES_FR,
-                        "Probabilité": probs,
-                    }).sort_values("Probabilité", ascending=False).head(3)
+                        "Class": CLASSES_EN,
+                        "Probability": probs,
+                    }).sort_values("Probability", ascending=False).head(3)
 
-                    df_probas["Probabilité"] = df_probas["Probabilité"].apply(
+                    df_probas["Probability"] = df_probas["Probability"].apply(
                         lambda x: f"{100*x:.2f} %"
                     )
 
@@ -300,32 +300,32 @@ with tab1:
                 with col1:
 
                     st.image(demo_image, width="stretch")
-                    st.caption("Image originale")
+                    st.caption("Original image")
 
                 with col2:
 
                     gradcam_im, class_idx = grad_cam(demo_image, model, MODEL_MAP.get(demo_model))
                     st.image(gradcam_im, width="stretch")
                     if demo_model in ["Xception", "ResNet50V2"]:
-                        st.caption("⚠️ Grad-CAM peu interprétable")
+                        st.caption("⚠️ Grad-CAM not very interpretable")
                     else:
                         st.caption("Grad-CAM")
 
                 with col3:
                     if demo_categorie is not None:
                         if label == demo_categorie:
-                            st.success(f"**Classe prédite : {label}**")
+                            st.success(f"**Predicted class : {label}**")
                         else:
-                            st.error(f"**Classe prédite : {label}**")
+                            st.error(f"**Predicted class : {label}**")
                     else: 
-                        st.info(f"**Classe prédite : {label}**")
+                        st.info(f"**Predicted class : {label}**")
                 
                     df_probas = pd.DataFrame({
-                        "Classe": CLASSES_FR,
-                        "Probabilité": probs,
-                    }).sort_values("Probabilité", ascending=False).head(3)
+                        "Class": CLASSES_EN,
+                        "Probability": probs,
+                    }).sort_values("Probability", ascending=False).head(3)
                 
-                    df_probas["Probabilité"] = df_probas["Probabilité"].apply(
+                    df_probas["Probability"] = df_probas["Probability"].apply(
                         lambda x: f"{100*x:.2f} %"
                     )
 
@@ -339,13 +339,13 @@ with tab1:
 # =========================================================================================================
 with tab2:  
 
-    st.subheader("Comparaison des modèles")    
+    st.subheader("Model comparison")    
 
-    st.caption("Comparaison des résultats de classification de l'ensemble des modèles seuls de machine learning et de deep learning à partir d'une image.") 
+    st.caption("Comparison of the classification results of all standalone machine learning and deep learning models on an image.") 
 
     compare_source = st.radio(
-        "Sélection de l'image",
-        ["Base de données", "Importer une image"], 
+        "Image source",
+        ["Database", "Upload an image"], 
         horizontal=True, 
         key="compare_source"
     )
@@ -353,14 +353,14 @@ with tab2:
     compare_image = None
     compare_categorie = None
 
-    if compare_source == "Base de données":
-        compare_categorie = st.selectbox("Catégorie", [
-                "Basophile", "Éosinophile", "Érythroblaste", "IG",
-                "Lymphocyte", "Monocyte", "Neutrophile", "Plaquette"
+    if compare_source == "Database":
+        compare_categorie = st.selectbox("Category", [
+                "Basophil", "Eosinophil", "Erythroblast", "IG",
+                "Lymphocyte", "Monocyte", "Neutrophil", "Platelet"
             ], 
             key="compare_categorie",
             index=None, 
-            placeholder="Selectionnez une catégorie de cellule")
+            placeholder="Select a cell category")
 
         if (
             st.session_state.get("compare_categorie_courante") != compare_categorie
@@ -375,7 +375,7 @@ with tab2:
             st.session_state.compare_gradcam_im = None
 
         if compare_categorie is not None:
-            if st.button("🎲 Nouveaux exemples", key="compare_random"):
+            if st.button("🎲 New examples", key="compare_random"):
                 st.session_state.compare_imgs_categorie = get_images_of_class(compare_categorie, n=6)
                 st.session_state.compare_selected_image = None
                 st.session_state.compare_selected_idx = None
@@ -403,15 +403,15 @@ with tab2:
         compare_image = st.session_state.compare_selected_image
 
     else:
-        compare_uploaded = st.file_uploader("Choisir une image", type=["png", "jpg", "jpeg"], key="compare_uploader")
+        compare_uploaded = st.file_uploader("Choose an image", type=["png", "jpg", "jpeg"], key="compare_uploader")
         st.caption(
             """
-            ℹ️ **Important**
+            ℹ️  **Important**
 
-            Les modèles ont été entraînés sur les images du jeu de données PBC.
-            Les performances peuvent être dégradées sur des images acquises dans des conditions différentes.
-            Les modèles de Machine Learning utilisant un prétraitement par clustering K-Means
-            sont particulièrement sensibles aux variations de coloration.
+            The models were trained on images from the PBC dataset.
+            Performance may be degraded on images acquired under different conditions.
+            Machine Learning models using K-Means clustering preprocessing
+            are particularly sensitive to color variations.
             """
         )
         if compare_uploaded:
@@ -419,8 +419,8 @@ with tab2:
 
     st.divider()
 
-    if compare_image and st.button("⚡ Comparer", disabled=compare_image is None):
-        with st.spinner("Analyse en cours..."):
+    if compare_image and st.button("⚡ Compare", disabled=compare_image is None):
+        with st.spinner("Analyzing..."):
 
             models = {
                 name: load_ml_model(name) for name in ["SVM", "XGBoost", "LGBM"]
@@ -440,18 +440,18 @@ with tab2:
 
                     if compare_categorie is not None:
                         if label == compare_categorie:
-                            st.success(f"**Classe prédite : {label}**")
+                            st.success(f"**Predicted class : {label}**")
                         else:
-                            st.error(f"**Classe prédite : {label}**")
+                            st.error(f"**Predicted class : {label}**")
                     else:
-                        st.info(f"**Classe prédite : {label}**")
+                        st.info(f"**Predicted class : {label}**")
 
                     df_probas = pd.DataFrame({
-                        "Classe": CLASSES_FR,
-                        "Probabilité": probs,
-                    }).sort_values("Probabilité", ascending=False).head(3)
+                        "Class": CLASSES_EN,
+                        "Probability": probs,
+                    }).sort_values("Probability", ascending=False).head(3)
 
-                    df_probas["Probabilité"] = df_probas["Probabilité"].apply(
+                    df_probas["Probability"] = df_probas["Probability"].apply(
                         lambda x: f"{100*x:.2f} %"
                     )      
 
@@ -487,18 +487,18 @@ with tab2:
                             st.subheader(name)
                             if compare_categorie is not None:
                                 if label == compare_categorie:
-                                    st.success(f"**Classe prédite : {label}**")
+                                    st.success(f"**Predicted class : {label}**")
                                 else:
-                                    st.error(f"**Classe prédite : {label}**")
+                                    st.error(f"**Predicted class : {label}**")
                             else:
-                                st.info(f"**Classe prédite : {label}**")
+                                st.info(f"**Predicted class : {label}**")
 
                             df_probas = pd.DataFrame({
-                                "Classe":CLASSES_FR,
-                                "Probabilité": probs,
-                            }).sort_values("Probabilité", ascending=False).head(3)
+                                "Class": CLASSES_EN,
+                                "Probability": probs,
+                            }).sort_values("Probability", ascending=False).head(3)
 
-                            df_probas["Probabilité"] = df_probas["Probabilité"].apply(
+                            df_probas["Probability"] = df_probas["Probability"].apply(
                                 lambda x: f"{100*x:.2f} %"
                             )
 
@@ -508,12 +508,12 @@ with tab2:
                                 use_container_width=True
                             )
 
-            if compare_source == "Importer une image":
+            if compare_source == "Upload an image":
                 st.divider()
                 cols = st.columns(3)
                 with cols[1]:
                     st.image(compare_image, width="stretch")
-                    st.caption("Image importée")
+                    st.caption("Uploaded image")
         
 
 
@@ -521,14 +521,14 @@ with tab2:
 # =========================================================================================================
 with tab3:  
 
-    st.subheader("Visualisation des erreurs")  
-    st.caption("Visualisation des erreurs de classification des modèles EfficientNetV2S, VGG19 et DenseNet121.")   
-    errors_model = st.selectbox("Modèle", [
+    st.subheader("Error visualization")  
+    st.caption("Visualization of classification errors for the EfficientNetV2S, VGG19 and DenseNet121 models.")   
+    errors_model = st.selectbox("Model", [
             "EfficientNetV2S", "VGG19", "DenseNet121",
         ], 
         key="errors_models",
         index=None,
-        placeholder="Selectionnez un modèle")
+        placeholder="Select a model")
 
         
 
@@ -556,7 +556,7 @@ with tab3:
     imgs_classe = st.session_state.errors_classes
 
     if errors_model:
-        with st.expander("Sélectionner une image"):
+        with st.expander("Select an image"):
             # grille d'images ici
             cols_per_row = 6
             for i in range(0, len(imgs_gradcam), cols_per_row):
@@ -572,11 +572,11 @@ with tab3:
 
                             if st.session_state.errors_selected_idx == idx:
                                 st.image(img_gradcam, use_container_width=True)
-                                st.caption(f"Classe : {img_classe}")
+                                st.caption(f"Class : {img_classe}")
                                 st.button("✅", key=f"errors_button_{idx}")
                             else:
                                 st.image(img_gradcam, use_container_width=True)
-                                st.caption(f"Classe : {img_classe}")
+                                st.caption(f"Class : {img_classe}")
                                 if st.button("✔", key=f"errors_button_{idx}"):
                                     st.session_state.errors_selected_idx = idx
                                     st.session_state.errors_selected_image = img_gradcam
@@ -588,12 +588,12 @@ with tab3:
                 "VGG19": 35,
                 "DenseNet121": 38,
             }
-            st.caption(f"Nombre total d'erreurs : {nb_errors_dic[errors_model]} / 3 415 images.")
+            st.caption(f"Total number of errors: {nb_errors_dic[errors_model]} / 3,415 images.")
             gradcam_image = st.session_state.errors_selected_image   
             image_classe = st.session_state.true_class                   
 
         if gradcam_image and st.button("🔥 Grad-CAM", disabled=gradcam_image is None):
-            with st.spinner("Analyse en cours..."):
+            with st.spinner("Analyzing..."):
 
                 models = {
                     name: load_dl_model(name) for name in GRADCAM_PATH_MAP
@@ -623,20 +623,20 @@ with tab3:
                                     st.subheader(name)
                                     st.image(gradcam_im,use_container_width=True)
                                     if name in ["ResNet50V2", "Xception"]:
-                                        st.caption("⚠️ Grad-CAM peu interprétable")
+                                        st.caption("⚠️ Grad-CAM not very interpretable")
 
                                     if label == image_classe:
-                                        st.success(f"**Classe prédite : {label}**")
+                                        st.success(f"**Predicted class : {label}**")
                                     else:
-                                        st.error(f"**Classe prédite : {label}**")
+                                        st.error(f"**Predicted class : {label}**")
 
                                     df_probas=pd.DataFrame({
-                                        "Classe":CLASSES_FR,
-                                        "Probabilité":
+                                        "Class":CLASSES_EN,
+                                        "Probability":
                                         probs,
-                                    }).sort_values("Probabilité", ascending=False).head(3)
+                                    }).sort_values("Probability", ascending=False).head(3)
 
-                                    df_probas["Probabilité"] = df_probas["Probabilité"].apply(
+                                    df_probas["Probability"] = df_probas["Probability"].apply(
                                         lambda x: f"{100*x:.2f} %"
                                     )
 
